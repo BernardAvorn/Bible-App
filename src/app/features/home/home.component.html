@@ -1,0 +1,37 @@
+<section class="hero">
+  <div class="hero__background" role="presentation"></div>
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content container">
+    <p class="hero__eyebrow">A Verse For This Moment</p>
+
+    @if (verseState().loading) {
+      <div class="hero__verse-card hero__verse-card--loading" aria-live="polite">
+        <app-loading-skeleton [lines]="4" />
+      </div>
+    } @else if (verseState().error) {
+      <div class="hero__verse-card hero__verse-card--error" role="alert">
+        <p>{{ verseState().error }}</p>
+        <button type="button" class="btn btn--ghost" (click)="loadRandomVerse()">Try again</button>
+      </div>
+    } @else if (verseState().data; as result) {
+      <blockquote class="hero__verse-card hero__verse-card--in" aria-live="polite">
+        <p class="hero__verse-text">&ldquo;{{ result.verse.text }}&rdquo;</p>
+        <footer class="hero__verse-meta">
+          <span class="hero__verse-ref">{{ result.verse.book }} {{ result.verse.chapter }}:{{ result.verse.verse }}</span>
+          <span class="hero__verse-dot">•</span>
+          <span class="hero__verse-translation">{{ result.translation.name }}</span>
+        </footer>
+      </blockquote>
+    }
+
+    <a routerLink="/bible" class="btn btn--primary hero__cta">
+      Open Bible
+      <span class="hero__cta-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="hero__scroll-cue" aria-hidden="true">
+    <span></span>
+  </div>
+</section>

@@ -1,0 +1,132 @@
+// ============================================================
+// Avorn Bible — Global base styles
+// ============================================================
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(ellipse at top, var(--color-bg-secondary) 0%, var(--color-bg-primary) 60%);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+// Respect reduced-motion preference across the whole app
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Visible focus state for keyboard navigation (accessibility requirement)
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+// ---- Shared button styles (used across Home + Bible pages) ----
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 14px 30px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  transition: transform var(--duration-fast) var(--ease-luxury),
+    box-shadow var(--duration-fast) var(--ease-luxury),
+    background var(--duration-fast) ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-bright) 100%);
+  color: #1a1206;
+  box-shadow: var(--shadow-glow-gold);
+
+  &:hover {
+    box-shadow: 0 0 56px rgba(212, 175, 106, 0.4);
+  }
+}
+
+.btn--ghost {
+  background: var(--color-card-glass);
+  border-color: var(--color-border-glass);
+  color: var(--color-text-primary);
+  backdrop-filter: blur(var(--blur-glass));
+
+  &:hover {
+    background: var(--color-card-glass-strong);
+  }
+}
+
+// Utility: visually hidden but still announced by screen readers
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Utility: constrains content to a comfortable reading width
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+
+  @media (max-width: 640px) {
+    padding-inline: 16px;
+  }
+}

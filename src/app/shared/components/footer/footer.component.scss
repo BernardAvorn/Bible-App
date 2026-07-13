@@ -1,0 +1,32 @@
+@use '../../../../styles/tokens' as *;
+
+.footer {
+  border-top: 1px solid var(--color-border-glass);
+  padding: 40px 0;
+  margin-top: 80px;
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footer__brand {
+  font-family: var(--font-heading);
+  letter-spacing: 0.05em;
+  color: var(--color-gold);
+  font-size: 0.95rem;
+}
+
+.footer__note {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.footer__year {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}

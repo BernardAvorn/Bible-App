@@ -1,0 +1,12 @@
+// ============================================================
+// Avorn Bible — Root stylesheet
+// ============================================================
+
+@use './styles/tokens';
+@use './styles/base';
+
+// Google Fonts: Cinzel for luxury display headings, Poppins for body text.
+// (Swapped in place of the originally requested "Aquire" — see project notes:
+// Aquire is a personal-use-only all-caps sci-fi stencil font, not a fit for
+// a luxury reading app and not legally usable here.)
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');

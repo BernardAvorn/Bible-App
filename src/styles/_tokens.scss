@@ -1,0 +1,67 @@
+// ============================================================
+// Avorn Bible — Design Tokens
+// Luxury glassmorphism palette: deep midnight blue, royal sapphire,
+// soft gold highlights, frosted translucent surfaces.
+// ============================================================
+
+:root {
+  // ---- Color: backgrounds ----
+  --color-bg-primary: #0a0e1a;      // Deep Midnight Blue
+  --color-bg-secondary: #1a1d29;    // Soft Graphite
+  --color-bg-elevated: #14182483;
+
+  // ---- Color: brand ----
+  --color-accent: #2d4fd1;          // Royal Sapphire Blue
+  --color-accent-soft: #4a68e0;
+  --color-gold: #d4af6a;            // Soft Gold
+  --color-gold-bright: #f0cf8a;
+
+  // ---- Color: surfaces ----
+  --color-card-glass: rgba(255, 255, 255, 0.06);   // Translucent Frosted White
+  --color-card-glass-strong: rgba(255, 255, 255, 0.1);
+  --color-border-glass: rgba(255, 255, 255, 0.12);
+
+  // ---- Color: text ----
+  --color-text-primary: #fdfdfe;    // Pure White
+  --color-text-secondary: #b8bcc8;  // Light Silver
+  --color-success: #3fb87f;         // Emerald Green
+
+  // ---- Elevation ----
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow-gold: 0 0 40px rgba(212, 175, 106, 0.25);
+  --shadow-glow-sapphire: 0 0 50px rgba(45, 79, 209, 0.3);
+
+  // ---- Radius ----
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  // ---- Blur ----
+  --blur-glass: 20px;
+  --blur-glass-strong: 32px;
+
+  // ---- Typography ----
+  --font-heading: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  // ---- Motion ----
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 200ms;
+  --duration-medium: 450ms;
+  --duration-slow: 800ms;
+}
+
+// ---- Reusable glass-surface mixin ----
+@mixin glass-surface($blur: var(--blur-glass), $bg: var(--color-card-glass)) {
+  background: $bg;
+  backdrop-filter: blur($blur) saturate(140%);
+  -webkit-backdrop-filter: blur($blur) saturate(140%);
+  border: 1px solid var(--color-border-glass);
+  box-shadow: var(--shadow-soft);
+}
+
+@mixin gold-text-glow {
+  color: var(--color-gold-bright);
+  text-shadow: 0 0 24px rgba(212, 175, 106, 0.35);
+}

@@ -1,0 +1,316 @@
+@use '../../../styles/tokens' as *;
+
+.reader {
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 100px;
+}
+
+// ---- Topbar: breadcrumb + translation selector ----
+.reader__topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb__item {
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+
+  &:not(.is-current):hover {
+    color: var(--color-gold-bright);
+  }
+
+  &.is-current {
+    color: var(--color-text-primary);
+    cursor: default;
+  }
+}
+
+.breadcrumb__sep {
+  color: var(--color-text-secondary);
+  opacity: 0.4;
+}
+
+.translation-select select {
+  @include glass-surface();
+  appearance: none;
+  color: var(--color-text-primary);
+  padding: 10px 36px 10px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-gold) 50%),
+    linear-gradient(135deg, var(--color-gold) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+
+  option {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+}
+
+// ---- Search ----
+.search {
+  position: relative;
+  margin-bottom: 48px;
+}
+
+.search__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  @include glass-surface(var(--blur-glass-strong));
+  border-radius: var(--radius-pill);
+  padding: 8px 8px 8px 20px;
+
+  &:focus-within {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 106, 0.15);
+  }
+}
+
+.search__icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.search__bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+  padding: 10px 0;
+  min-width: 0;
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search__submit {
+  padding: 10px 22px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.search__suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  @include glass-surface(var(--blur-glass-strong), var(--color-card-glass-strong));
+  border-radius: var(--radius-md);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.search__suggestion {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+
+  &:hover,
+  &.is-active {
+    background: var(--color-card-glass);
+    color: var(--color-text-primary);
+  }
+}
+
+.search__error {
+  margin-top: 12px;
+  color: var(--color-gold-bright);
+  font-size: 0.9rem;
+  padding-left: 4px;
+}
+
+// ---- Books grid ----
+.grid--books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.book-card {
+  @include glass-surface();
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  transition: transform var(--duration-fast) var(--ease-luxury),
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) var(--ease-luxury);
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(212, 175, 106, 0.4);
+    box-shadow: var(--shadow-glow-sapphire);
+  }
+}
+
+.book-card__arrow {
+  color: var(--color-gold);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all var(--duration-fast) var(--ease-luxury);
+}
+
+.book-card:hover .book-card__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+// ---- Chapters grid ----
+.grid--chapters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 12px;
+}
+
+.chapter-pill {
+  @include glass-surface();
+  border-radius: var(--radius-md);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  transition: all var(--duration-fast) var(--ease-luxury);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    border-color: var(--color-gold);
+    color: var(--color-gold-bright);
+  }
+}
+
+.skeleton-pill {
+  @include glass-surface();
+  border-radius: var(--radius-md);
+  aspect-ratio: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 37%,
+    rgba(255, 255, 255, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-card {
+  @include glass-surface();
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+// ---- Verse viewer ----
+.verse-viewer {
+  max-width: 780px;
+}
+
+.verse-list {
+  @include glass-surface();
+  border-radius: var(--radius-lg);
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: verses-in var(--duration-medium) var(--ease-luxury) both;
+}
+
+@keyframes verses-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.verse-list__item {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: var(--color-text-primary);
+}
+
+.verse-list__number {
+  flex-shrink: 0;
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  min-width: 22px;
+  text-align: right;
+}
+
+// ---- Generic state card (errors / empty states) ----
+.state-card {
+  @include glass-surface();
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-pill,
+  .verse-list {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .search__bar {
+    flex-wrap: wrap;
+    padding: 14px;
+  }
+
+  .search__submit {
+    width: 100%;
+  }
+
+  .verse-list {
+    padding: 28px 24px;
+  }
+}

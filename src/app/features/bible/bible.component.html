@@ -1,0 +1,170 @@
+<section class="reader">
+  <div class="reader__topbar container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Bible navigation">
+      <button type="button" class="breadcrumb__item" [class.is-current]="viewMode() === 'books'" (click)="backToBooks()">
+        Books
+      </button>
+      @if (selectedBook(); as book) {
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <button
+          type="button"
+          class="breadcrumb__item"
+          [class.is-current]="viewMode() === 'chapters'"
+          (click)="backToChapters()"
+        >
+          {{ book.name }}
+        </button>
+      }
+      @if (selectedChapter(); as chapter) {
+        <span class="breadcrumb__sep" aria-hidden="true">/</span>
+        <span class="breadcrumb__item is-current">
+          Chapter {{ chapter }}{{ verseRangeLabel() ? ':' + verseRangeLabel() : '' }}
+        </span>
+      }
+    </nav>
+
+    <!-- Translation selector -->
+    <div class="translation-select">
+      <label for="translation" class="sr-only">Translation</label>
+      <select
+        id="translation"
+        [value]="selectedTranslation()"
+        (change)="onTranslationChange($any($event.target).value)"
+      >
+        @if (translationsState().data; as translations) {
+          @for (t of translations; track t.identifier) {
+            <option [value]="t.identifier">{{ t.name }}</option>
+          }
+        } @else {
+          <option [value]="selectedTranslation()">World English Bible</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search container">
+    <div class="search__bar">
+      <svg class="search__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+        <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <input
+        type="text"
+        role="combobox"
+        [attr.aria-expanded]="showSuggestions()"
+        aria-controls="book-suggestions"
+        aria-label="Search by book, chapter, verse, or reference — e.g. John 3:16"
+        placeholder="Search e.g. John 3:16, John 3:16-18, or just John"
+        [value]="searchQuery()"
+        (input)="onSearchInput($any($event.target).value)"
+        (focus)="onSearchFocus()"
+        (blur)="onSearchBlur()"
+        (keydown)="onSearchKeydown($event)"
+      />
+      <button type="button" class="btn btn--primary search__submit" (click)="submitSearch()">Search</button>
+    </div>
+
+    @if (showSuggestions() && bookSuggestions().length > 0) {
+      <ul id="book-suggestions" class="search__suggestions" role="listbox">
+        @for (book of bookSuggestions(); track book.id; let i = $index) {
+          <li
+            role="option"
+            [attr.aria-selected]="i === activeSuggestionIndex()"
+            class="search__suggestion"
+            [class.is-active]="i === activeSuggestionIndex()"
+            (mousedown)="selectSuggestion(book)"
+          >
+            {{ book.name }}
+          </li>
+        }
+      </ul>
+    }
+
+    @if (searchError()) {
+      <p class="search__error" role="alert">{{ searchError() }}</p>
+    }
+  </div>
+
+  <!-- Books grid -->
+  @if (viewMode() === 'books') {
+    <div class="container">
+      @if (booksState().loading) {
+        <div class="grid grid--books">
+          @for (i of [].constructor(12); track $index) {
+            <div class="skeleton-card"><app-loading-skeleton [lines]="2" /></div>
+          }
+        </div>
+      } @else if (booksState().error) {
+        <div class="state-card" role="alert">
+          <p>{{ booksState().error }}</p>
+        </div>
+      } @else if (booksState().data; as books) {
+        <div class="grid grid--books">
+          @for (book of books; track book.id) {
+            <button type="button" class="book-card" (click)="selectBook(book)">
+              <span class="book-card__name">{{ book.name }}</span>
+              <span class="book-card__arrow" aria-hidden="true">→</span>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Chapters grid -->
+  @if (viewMode() === 'chapters') {
+    <div class="container">
+      @if (chaptersState().loading) {
+        <div class="grid grid--chapters">
+          @for (i of [].constructor(24); track $index) {
+            <div class="skeleton-pill"></div>
+          }
+        </div>
+      } @else if (chaptersState().error) {
+        <div class="state-card" role="alert">
+          <p>{{ chaptersState().error }}</p>
+        </div>
+      } @else if (chaptersState().data; as chapters) {
+        <div class="grid grid--chapters">
+          @for (chapter of chapters; track chapter.chapter) {
+            <button type="button" class="chapter-pill" (click)="selectChapter(chapter.chapter)">
+              {{ chapter.chapter }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Verse viewer -->
+  @if (viewMode() === 'verses') {
+    <div class="container verse-viewer">
+      @if (versesState().loading) {
+        <div class="state-card">
+          <app-loading-skeleton [lines]="6" />
+        </div>
+      } @else if (versesState().error) {
+        <div class="state-card" role="alert">
+          <p>{{ versesState().error }}</p>
+        </div>
+      } @else if (versesState().data; as verses) {
+        @if (verses.length === 0) {
+          <div class="state-card">
+            <p>No verses found here yet.</p>
+          </div>
+        } @else {
+          <article class="verse-list">
+            @for (verse of verses; track verse.verse) {
+              <p class="verse-list__item">
+                <span class="verse-list__number">{{ verse.verse }}</span>
+                <span class="verse-list__text">{{ verse.text }}</span>
+              </p>
+            }
+          </article>
+        }
+      }
+    </div>
+  }
+</section>

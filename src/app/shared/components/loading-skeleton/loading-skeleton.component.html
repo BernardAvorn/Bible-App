@@ -1,0 +1,5 @@
+<div class="skeleton" role="status" aria-label="Loading">
+  @for (line of [].constructor(lines()); track $index) {
+    <div class="skeleton__line" [style.width.%]="$index === lines() - 1 ? 60 : 100"></div>
+  }
+</div>
