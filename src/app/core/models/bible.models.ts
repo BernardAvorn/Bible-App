@@ -23,7 +23,7 @@ export interface BibleBook {
   id: string;
   name: string;
   url: string;
-}
+} 
 
 export interface BooksResponse {
   translation: TranslationSummary;
